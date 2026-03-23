@@ -1,10 +1,8 @@
 package com.leroycode.carcrudproject.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 @Entity
 @Table(name = "cars")
@@ -62,10 +60,11 @@ public class Car {
     public Car() {
 
     }
-    public Car( String engine, String transmission, String pads, String rotors,
-    String calipers, String shocks, String struts, String steeringRacks,
-    String controlArms, String battery, String alternator, String starter,
-    String headlights, String tailLights, String turnSignalLights) {
+
+    public Car(String engine, String transmission, String pads, String rotors,
+               String calipers, String shocks, String struts, String steeringRacks,
+               String controlArms, String battery, String alternator, String starter,
+               String headlights, String tailLights, String turnSignalLights) {
         this.engine = engine;
         this.transmission = transmission;
         this.pads = pads;
@@ -82,9 +81,69 @@ public class Car {
         this.tailLights = tailLights;
         this.turnSignalLights = turnSignalLights;
 
-
-
-
     }
 
+    public long getId() {
+        return this.id;
     }
+
+    public String getEngine() {
+        return this.engine;
+    }
+
+    public String getTransmission() {
+        return this.transmission;
+    }
+
+    public String getPads() {
+        return this.pads;
+    }
+
+    public String getRotors() {
+        return this.rotors;
+    }
+
+    public String getCalipers() {
+        return this.calipers;
+    }
+
+    public String getShocks() {
+        return this.shocks;
+    }
+
+    public String getStruts() {
+        return this.struts;
+    }
+
+    public String getSteeringRacks() {
+        return this.steeringRacks;
+    }
+
+    public String getControlArms() {
+        return this.controlArms;
+    }
+
+    public String getBattery() {
+        return this.battery;
+    }
+
+    public String getAlternator() {
+        return this.alternator;
+    }
+
+    public String getStarter() {
+        return this.starter;
+    }
+
+    public String getHeadlights() {
+        return this.headlights;
+    }
+
+    public String getTailLights() {
+        return this.tailLights;
+    }
+
+    public String getTurnSignalLights() {
+        return this.turnSignalLights;
+    }
+}
