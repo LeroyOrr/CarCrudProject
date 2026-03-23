@@ -62,10 +62,11 @@ public class Car {
     public Car() {
 
     }
-    public Car( String engine, String transmission, String pads, String rotors,
-    String calipers, String shocks, String struts, String steeringRacks,
-    String controlArms, String battery, String alternator, String starter,
-    String headlights, String tailLights, String turnSignalLights) {
+
+    public Car(String engine, String transmission, String pads, String rotors,
+               String calipers, String shocks, String struts, String steeringRacks,
+               String controlArms, String battery, String alternator, String starter,
+               String headlights, String tailLights, String turnSignalLights) {
         this.engine = engine;
         this.transmission = transmission;
         this.pads = pads;
@@ -82,9 +83,6 @@ public class Car {
         this.tailLights = tailLights;
         this.turnSignalLights = turnSignalLights;
 
-
-
-
     }
 
-    }
+}
