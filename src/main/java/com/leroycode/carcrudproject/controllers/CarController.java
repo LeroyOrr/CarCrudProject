@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class CarController {
 
-    private CarService carService;
+    private final CarService carService;
 
     public CarController(CarService carService) {
         this.carService =carService;
