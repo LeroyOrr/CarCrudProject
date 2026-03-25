@@ -60,7 +60,6 @@ public class Car {
 
     //default constructor
     public Car() {
-
     }
 
     public Car(String engine, String transmission, String pads, String rotors,
