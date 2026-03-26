@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<APIError> handleRunTimeException(ResourceNotFoundException exception, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
         APIError apiError = new APIError(
-                LocalDateTime.now().now(),
+                LocalDateTime.now(),
                 status.value(),
                 status.name(),
                 exception.getMessage(),
@@ -26,12 +26,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<APIError> handleValidationException(MethodArgumentNotValidException exception, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
         APIError apiError = new APIError(
-                LocalDateTime.now().now(),
+                LocalDateTime.now(),
                 status.value(),
                 status.name(),
                 exception.getBindingResult().getFieldError().getDefaultMessage(),
