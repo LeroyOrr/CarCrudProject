@@ -26,8 +26,13 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
+          java-version: '17'
           distribution: temurin
-          java-version: 17
+          cache: maven
+          
 
       - name: Build with Maven
         run: mvn -B clean verify
+
+      - name: Update dependency graph
+        uses: advanced-security/maven-dependency-submission-action@v4
