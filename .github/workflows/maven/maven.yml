@@ -8,13 +8,16 @@
 
 name: Java CI with Maven
 
-on: [push]
+on:
+  push:
+    branches: [revert-1-main1]
+  pull_request:
+permissions:
+  contents: write
+  security-events: write
 
 jobs:
   build:
-    permissions:
-      contents: write
-      
 
     runs-on: ubuntu-latest
 
