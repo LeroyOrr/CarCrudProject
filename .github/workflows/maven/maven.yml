@@ -12,12 +12,13 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "revert-1-main1" ]
 
 jobs:
   build:
     permissions:
-      contents: write
+      contents: read
+
 
     runs-on: ubuntu-latest
 
