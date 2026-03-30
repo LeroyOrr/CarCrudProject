@@ -7,6 +7,8 @@ import com.leroycode.carcrudproject.models.CarRequest;
 import com.leroycode.carcrudproject.models.CarResponse;
 import com.leroycode.carcrudproject.repository.CarRepository;
 import com.leroycode.carcrudproject.service.CarService;
+import org.instancio.Instancio;
+import org.instancio.Select;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,25 +40,11 @@ class CarCrudProjectApplicationTests {
     @Test
     public void saveCarTest() {
 
-        CarRequest carRequest = new CarRequest("engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
+        CarRequest carRequest = Instancio.create(CarRequest.class);
 
-        Car mappedCar = new Car("engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
+        Car mappedCar = Instancio.create(Car.class);
 
-        Car savedCar = new Car("engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
-
-        CarResponse carResponse = new CarResponse(1L, "engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
+        Car savedCar = Instancio.create(Car.class);
 
         when(carMapper.carRequestToCar(carRequest)).thenReturn(mappedCar);
 
@@ -69,8 +57,8 @@ class CarCrudProjectApplicationTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals(0, result.getId());
-        assertEquals("engine", result.getEngine());
+        assertEquals(savedCar.getId(), result.getId());
+        assertEquals(savedCar.getEngine(), result.getEngine());
 
         // Verify interactions
         verify(carMapper).carRequestToCar(carRequest);
@@ -81,22 +69,17 @@ class CarCrudProjectApplicationTests {
     @Test
     public void getCarByIDTest() {
         long id = 1L;
-        Car car = new Car("engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
+        Car car = Instancio.create(Car.class);
 
-        CarResponse carResponse = new CarResponse(1L, "engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
+        CarResponse carResponse = Instancio.create(CarResponse.class);
+
         when(carRepository.findById(id)).thenReturn(Optional.of(car));
         when(carMapper.carToCarResponse(car)).thenReturn(carResponse);
 
         CarResponse result = carService.getCarById(id);
 
         assertNotNull(result);
-        assertEquals(1L, result.id());
+        assertEquals(carResponse.id(), result.id());
 
         verify(carRepository).findById(id);
         verify(carMapper).carToCarResponse(car);
@@ -112,42 +95,103 @@ class CarCrudProjectApplicationTests {
         verify(carRepository).findById(id);
         verify(carMapper, never()).carToCarResponse(any());
     }
-
     @Test
-    public void getAllCarsTest() {
-        List<Car> carList = List.of(new Car("engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights"),
+    void getAllCars() {
+    List<Car> carList = Instancio.ofList(Car.class)
+            .size(2)
+            .set(Select.field(Car::getEngine), "engine1")
+            .set(Select.field(Car::getTransmission), "transmission1")
+            .set(Select.field(Car::getPads), "pads1")
+            .set(Select.field(Car::getRotors), "rotors1")
+            .set(Select.field(Car::getCalipers), "calipers1")
+            .set(Select.field(Car::getShocks), "shocks1")
+            .set(Select.field(Car::getStruts), "struts1")
+            .set(Select.field(Car::getSteeringRacks), "steeringRacks1")
+            .set(Select.field(Car::getControlArms), "controlArms1")
+            .set(Select.field(Car::getBattery), "battery1")
+            .set(Select.field(Car::getAlternator), "alternator1")
+            .set(Select.field(Car::getStarter), "starter1")
+            .set(Select.field(Car::getHeadlights), "headlights1")
+            .set(Select.field(Car::getTailLights), "tailLights1")
+            .set(Select.field(Car::getTurnSignalLights), "turnSignalLights1")
+            .create();
 
-                new Car("engine2", "transmission2", "pads2",
-                "rotors2", "calipers2", "shocks2", "struts2",
-                "steeringRacks2", "controlArms2", "battery2", "alternator2",
-                "starter2", "headlights2", "tailLights2", "turnSignalLights2"));
+    carList = List.of(
+            carList.get(0),
+            Instancio.of(Car.class)
+            .set(Select.field(Car::getEngine), "engine2")
+            .set(Select.field(Car::getTransmission), "transmission2")
+            .set(Select.field(Car::getPads), "pads2")
+            .set(Select.field(Car::getRotors), "rotors2")
+            .set(Select.field(Car::getCalipers), "calipers2")
+            .set(Select.field(Car::getShocks), "shocks2")
+            .set(Select.field(Car::getStruts), "struts2")
+            .set(Select.field(Car::getSteeringRacks), "steeringRacks2")
+            .set(Select.field(Car::getControlArms), "controlArms2")
+            .set(Select.field(Car::getBattery), "battery2")
+            .set(Select.field(Car::getAlternator), "alternator2")
+            .set(Select.field(Car::getStarter), "starter2")
+            .set(Select.field(Car::getHeadlights), "headlights2")
+            .set(Select.field(Car::getTailLights), "tailLights2")
+            .set(Select.field(Car::getTurnSignalLights), "turnSignalLights2")
+            .create()
+    );
 
-        List<CarResponse> carResponseList = List.of(
-                new CarResponse(1L, "engine1", "transmission1", "pads1",
-                        "rotors1", "calipers1", "shocks1", "struts1",
-                        "steeringRacks1", "controlArms1", "battery1", "alternator1",
-                        "starter1", "headlights1", "tailLights1", "turnSignalLights1"),
+    List<CarResponse> carResponseList = List.of(
+            Instancio.of(CarResponse.class)
+                    .set(Select.field(CarResponse::id), 1L)
+                    .set(Select.field(CarResponse::engine), "engine1")
+                    .set(Select.field(CarResponse::transmission), "transmission1")
+                    .set(Select.field(CarResponse::pads), "pads1")
+                    .set(Select.field(CarResponse::rotors), "rotors1")
+                    .set(Select.field(CarResponse::calipers), "calipers1")
+                    .set(Select.field(CarResponse::shocks), "shocks1")
+                    .set(Select.field(CarResponse::struts), "struts1")
+                    .set(Select.field(CarResponse::steeringRacks), "steeringRacks1")
+                    .set(Select.field(CarResponse::controlArms), "controlArms1")
+                    .set(Select.field(CarResponse::battery), "battery1")
+                    .set(Select.field(CarResponse::alternator), "alternator1")
+                    .set(Select.field(CarResponse::starter), "starter1")
+                    .set(Select.field(CarResponse::headlights), "headlights1")
+                    .set(Select.field(CarResponse::tailLights), "tailLights1")
+                    .set(Select.field(CarResponse::turnSignalLights), "turnSignalLights1")
+                    .create(),
 
-                new CarResponse(2L, "engine2", "transmission2", "pads2",
-                        "rotors2", "calipers2", "shocks2", "struts2",
-                        "steeringRacks2", "controlArms2", "battery2", "alternator2",
-                        "starter2", "headlights2", "tailLights2", "turnSignalLights2")
-        );
-        when(carRepository.findAll()).thenReturn(carList);
-        when(carMapper.carRequestToCarResponse(carList)).thenReturn(carResponseList);
+            Instancio.of(CarResponse.class)
+                    .set(Select.field(CarResponse::id), 2L)
+                    .set(Select.field(CarResponse::engine), "engine2")
+                    .set(Select.field(CarResponse::transmission), "transmission2")
+                    .set(Select.field(CarResponse::pads), "pads2")
+                    .set(Select.field(CarResponse::rotors), "rotors2")
+                    .set(Select.field(CarResponse::calipers), "calipers2")
+                    .set(Select.field(CarResponse::shocks), "shocks2")
+                    .set(Select.field(CarResponse::struts), "struts2")
+                    .set(Select.field(CarResponse::steeringRacks), "steeringRacks2")
+                    .set(Select.field(CarResponse::controlArms), "controlArms2")
+                    .set(Select.field(CarResponse::battery), "battery2")
+                    .set(Select.field(CarResponse::alternator), "alternator2")
+                    .set(Select.field(CarResponse::starter), "starter2")
+                    .set(Select.field(CarResponse::headlights), "headlights2")
+                    .set(Select.field(CarResponse::tailLights), "tailLights2")
+                    .set(Select.field(CarResponse::turnSignalLights), "turnSignalLights2")
+                    .create()
+    );
 
-        List<CarResponse> result = carService.getAllCars();
+    // Mock behavior
+    when(carRepository.findAll()).thenReturn(carList);
+    when(carMapper.carRequestToCarResponse(carList)).thenReturn(carResponseList);
 
-        assertNotNull(result);
-        assertEquals("engine1", result.get(0).engine());
-        assertEquals("engine2", result.get(1).engine());
+    // Execute
+    List<CarResponse> result = carService.getAllCars();
 
-        verify(carRepository).findAll();
-        verify(carMapper).carRequestToCarResponse(carList);
-    }
+    // Assertions
+    assertNotNull(result);
+    assertEquals("engine1", result.get(0).engine());
+    assertEquals("engine2", result.get(1).engine());
+
+    verify(carRepository).findAll();
+    verify(carMapper).carRequestToCarResponse(carList);
+}
 
     @Test
     public void deleteCarByIdTest() {
@@ -162,25 +206,13 @@ class CarCrudProjectApplicationTests {
     @Test
     public void updateCarByIdTest() {
         long id = 1L;
-        Car car = new Car("engine", "transmission", "pads",
-                "rotors", "calipers", "shocks", "struts",
-                "steeringRacks", "controlArms", "battery", "alternator",
-                "starter", "headlights", "tailLights", "turnSignalLights");
+        Car car = Instancio.create(Car.class);
 
-        Car savedCar = new Car("engine2", "transmission2", "pads2",
-                "rotors2", "calipers2", "shocks2", "struts2",
-                "steeringRacks2", "controlArms2", "battery2", "alternator2",
-                "starter2", "headlights2", "tailLights2", "turnSignalLights2");
+        Car savedCar = Instancio.create(Car.class);
 
-        CarRequest carRequest = new CarRequest("engine2", "transmission2", "pads2",
-                "rotors2", "calipers2", "shocks2", "struts2",
-                "steeringRacks2", "controlArms2", "battery2", "alternator2",
-                "starter2", "headlights2", "tailLights2", "turnSignalLights2");
+        CarRequest carRequest = Instancio.create(CarRequest.class);
 
-        CarResponse carResponse = new CarResponse(1L,"engine2", "transmission2", "pads2",
-                "rotors2", "calipers2", "shocks2", "struts2",
-                "steeringRacks2", "controlArms2", "battery2", "alternator2",
-                "starter2", "headlights2", "tailLights2", "turnSignalLights2");
+        CarResponse carResponse = Instancio.create(CarResponse.class);
 
         when(carRepository.findById(id)).thenReturn(Optional.of(car));
         carMapper.updateCarFromCarRequest(carRequest, car);
@@ -189,12 +221,11 @@ class CarCrudProjectApplicationTests {
 
         CarResponse result = carService.updateCarById(id,carRequest);
         assertNotNull(result);
-        assertEquals("engine2", result.engine());
-        assertEquals("alternator2", result.alternator());
+        assertEquals(carResponse.engine(), result.engine());
+        assertEquals(carResponse.alternator(), result.alternator());
 
         verify(carRepository).findById(id);
         verify(carRepository).save(car);
     }
-
 
 }
