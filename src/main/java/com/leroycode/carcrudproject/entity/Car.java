@@ -1,8 +1,10 @@
 package com.leroycode.carcrudproject.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 @Setter
 @Entity
 @Table(name = "cars")
@@ -58,7 +60,6 @@ public class Car {
 
     //default constructor
     public Car() {
-
     }
 
     public Car(String engine, String transmission, String pads, String rotors,
