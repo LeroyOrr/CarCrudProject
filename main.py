@@ -1,4 +1,6 @@
 from controllers.CarController import CarController
+from mapreduce.driver import mapreduce_get_cars
+from mapreduce.mapper import get_all_cars_mapper
 from csv import DictReader
 
 
@@ -29,4 +31,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    all_cars = get_all_cars_mapper()
+    ids = [car["id"] for car in all_cars]
+
+    results = mapreduce_get_cars(ids)
+    print(results)
