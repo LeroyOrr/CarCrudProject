@@ -37,7 +37,7 @@ def mapreduce_update_cars(update_pairs, max_workers=10):
     """
     def update_wrapper(pair):
         car_id, car_data = pair
-        return update_car_mapper(car_id, car_data)
+        return update_car_mapper(car_id)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         mapped = list(executor.map(update_wrapper, update_pairs))
@@ -45,7 +45,7 @@ def mapreduce_update_cars(update_pairs, max_workers=10):
 
 
 def mapreduce_create_cars(car_data_list, max_workers=10):
-    """MapReduce for creating many cars."""
+    """MapReduce for creating many cars. """
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         mapped = list(executor.map(create_car_mapper, car_data_list))
     return reduce_results(mapped)
