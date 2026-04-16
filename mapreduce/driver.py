@@ -33,7 +33,7 @@ def mapreduce_delete_cars(car_ids, max_workers=10):
 
 def mapreduce_update_cars(update_pairs, max_workers=10):
     """
-    update_pairs = [(car_id, car_data), ...]
+    update_pairs = [(car_id, car_data),...]
     """
     def update_wrapper(pair):
         car_id, car_data = pair
